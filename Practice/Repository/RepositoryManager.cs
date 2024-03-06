@@ -7,8 +7,8 @@ public class RepositoryManager(RepositoryContext repositoryContext) : IRepositor
     private readonly Lazy<ICompanyRepository> companyRepository = new(() => new CompanyRepository(repositoryContext));
     private readonly Lazy<IEmployeeRepository> employeeRepository = new(() => new EmployeeRepository(repositoryContext));
 
-    public ICompanyRepository CompanyRepository => companyRepository.Value;
-    public IEmployeeRepository EmployeeRepository => employeeRepository.Value;
+    public ICompanyRepository Company => companyRepository.Value;
+    public IEmployeeRepository Employee => employeeRepository.Value;
 
     public async Task Save()
         => await repositoryContext.SaveChangesAsync().ConfigureAwait(false);
