@@ -2,10 +2,6 @@
 using Entities.Models;
 
 namespace Repository;
-public class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
+public class CompanyRepository(RepositoryContext repositoryContext) : RepositoryBase<Company>(repositoryContext), ICompanyRepository
 {
-    protected CompanyRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-    {
-
-    }
 }
