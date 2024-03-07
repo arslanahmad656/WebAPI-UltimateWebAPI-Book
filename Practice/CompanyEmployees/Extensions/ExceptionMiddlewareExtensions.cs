@@ -1,7 +1,7 @@
 ﻿using Contracts;
 using Entities.ErrorModel;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using System.Net;
 
 namespace CompanyEmployees.Extensions;
 
@@ -13,7 +13,6 @@ public static class ExceptionMiddlewareExtensions
         {
             errorApp.Run(async context =>
             {
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
                 var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -22,10 +21,16 @@ public static class ExceptionMiddlewareExtensions
                     var error = errorFeature.Error;
                     logger.LogError($"Error occurred while processing a request. ${error}");
 
+                    context.Response.StatusCode = errorFeature.Error switch
+                    {
+                        NotFoundException => StatusCodes.Status404NotFound,
+                        _ => StatusCodes.Status500InternalServerError
+                    };
+
                     await context.Response.WriteAsync(new ErrorDetails
                     {
-                        Message = "Internal Server Error",
-                        StatusCode = (HttpStatusCode)context.Response.StatusCode
+                        Message = error.Message,
+                        StatusCode = context.Response.StatusCode
                     }.ToString()).ConfigureAwait(false);
                 }
             });
