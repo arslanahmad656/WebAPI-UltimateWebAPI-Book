@@ -14,4 +14,11 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         var companies = await repository.Company.GetAllCompanies(trackChanges).ConfigureAwait(false);
         return mapper.Map<IEnumerable<CompanyDto>>(companies);
     }
+
+    public async Task<CompanyDto> GetCompanyById(Guid companyId, bool trackChanges)
+    {
+        var company = await repository.Company.GetCompanyById(companyId, trackChanges);
+
+        return mapper.Map<CompanyDto>(company);
+    }
 }

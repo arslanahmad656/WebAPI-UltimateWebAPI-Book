@@ -14,4 +14,11 @@ public class CompaniesController(IServiceManager service)
         var companies = await service.CompanyService.GetAllCompanies(false).ConfigureAwait(false);
         return Ok(companies);
     }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetCompany(Guid id)
+    {
+        var company = await service.CompanyService.GetCompanyById(id, false).ConfigureAwait(false);
+        return Ok(company);
+    }
 }

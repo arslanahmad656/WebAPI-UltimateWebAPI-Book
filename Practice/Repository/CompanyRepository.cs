@@ -9,4 +9,8 @@ internal sealed class CompanyRepository(RepositoryContext repositoryContext) : R
         => await this.FindAll(trackChanges)
         .OrderBy(c => c.Name)
         .ToListAsync().ConfigureAwait(false);
+
+    public async Task<Company?> GetCompanyById(Guid companyId, bool trackChanges)
+        => await this.FindByCondition(c => c.Id == companyId, trackChanges)
+            .SingleOrDefaultAsync().ConfigureAwait(false);
 }
