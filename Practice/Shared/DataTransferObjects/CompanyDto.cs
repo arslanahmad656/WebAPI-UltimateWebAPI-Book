@@ -1,3 +1,11 @@
-﻿namespace Shared.DataTransferObjects;
+﻿using System.Runtime.Serialization;
 
-public record CompanyDto(Guid Id, string Name, string FullAddress);
+namespace Shared.DataTransferObjects;
+
+[DataContract]
+public record CompanyDto
+    (
+        [property: DataMember] Guid Id, 
+        [property: DataMember] string Name, 
+        [property: DataMember] string FullAddress
+    );
