@@ -11,15 +11,7 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
 {
     public async Task<IEnumerable<CompanyDto>> GetAllCompanies(bool trackChanges)
     {
-		try
-		{
-			var companies = await repository.Company.GetAllCompanies(trackChanges).ConfigureAwait(false);
-			return mapper.Map<IEnumerable<CompanyDto>>(companies);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError($"Error occurred while getting all companies. {ex.Message}");
-			throw;
-		}
+        var companies = await repository.Company.GetAllCompanies(trackChanges).ConfigureAwait(false);
+        return mapper.Map<IEnumerable<CompanyDto>>(companies);
     }
 }

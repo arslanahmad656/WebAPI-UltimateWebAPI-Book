@@ -11,14 +11,7 @@ public class CompaniesController(IServiceManager service)
 {
     public async Task<IActionResult> GetCompanies()
     {
-		try
-		{
-			var companies = await service.CompanyService.GetAllCompanies(false).ConfigureAwait(false);
-			return Ok(companies);
-		}
-		catch(Exception ex)
-		{
-			return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-		}
+        var companies = await service.CompanyService.GetAllCompanies(false).ConfigureAwait(false);
+        return Ok(companies);
     }
 }
