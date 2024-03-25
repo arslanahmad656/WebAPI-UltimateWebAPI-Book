@@ -10,4 +10,10 @@ public class EmployeeRepository(RepositoryContext repositoryContext) : Repositor
 
     public async Task<Employee?> GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
         => await this.FindByCondition(e => e.CompanyId == companyId && e.Id == employeeId, false).SingleOrDefaultAsync().ConfigureAwait(false);
+
+    public void CreateEmployee(Guid companyId, Employee employee)
+    {
+        employee.CompanyId = companyId;
+        Create(employee);
+    }
 }
