@@ -7,4 +7,6 @@ public interface ICompanyService
     Task<IEnumerable<CompanyDto>> GetAllCompanies(bool trackChanges);
 
     Task<CompanyDto> GetCompanyById(Guid companyId, bool trackChanges);
+
+    Task<CompanyDto> CreateCompany(CreateCompanyDTO companyDto);
 }

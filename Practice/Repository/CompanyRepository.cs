@@ -13,4 +13,7 @@ internal sealed class CompanyRepository(RepositoryContext repositoryContext) : R
     public async Task<Company?> GetCompanyById(Guid companyId, bool trackChanges)
         => await this.FindByCondition(c => c.Id == companyId, trackChanges)
             .SingleOrDefaultAsync().ConfigureAwait(false);
+
+    public void CreateCompany(Company company)
+        => this.Create(company);
 }

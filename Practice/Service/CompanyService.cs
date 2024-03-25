@@ -21,4 +21,14 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         var company = await repository.Company.GetCompanyById(companyId, trackChanges);
         return company is null ? throw new CompanyNotFoundException(companyId) : mapper.Map<CompanyDto>(company);
     }
+
+    public async Task<CompanyDto> CreateCompany(CreateCompanyDTO companyDto)
+    {
+        var company = mapper.Map<Company>(companyDto);
+        repository.Company.CreateCompany(company);
+        
+        await repository.Save().ConfigureAwait(false);
+
+        return mapper.Map<CompanyDto>(company);
+    }
 }
