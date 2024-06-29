@@ -2,9 +2,7 @@
 
 public interface IRepositoryManager
 {
-    ICompanyRepository Company { get; }
-
-    IEmployeeRepository Employee { get; }
+    TRepository GetRepository<TRepository>() where TRepository : IRepository;
 
     public Task Save();
 }

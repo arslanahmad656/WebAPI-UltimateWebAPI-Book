@@ -2,7 +2,7 @@
 
 namespace Contracts;
 
-public interface IEmployeeRepository
+public interface IEmployeeRepository : IRepository
 {
     Task<IEnumerable<Employee>> GetAllEmployees(Guid companyId, bool trackChanges);
 
