@@ -10,6 +10,7 @@ namespace CompanyEmployees.Presentation.Controllers;
 public class CompaniesController(IServiceManager service)
     : ControllerBase
 {
+    [HttpGet]
     public async Task<IActionResult> GetCompanies()
     {
         var companies = await service.CompanyService.GetAllCompanies(false).ConfigureAwait(false);
