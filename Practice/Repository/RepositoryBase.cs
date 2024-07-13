@@ -18,9 +18,18 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         => trackChanges ? repositoryContext.Set<T>()
         : repositoryContext.Set<T>().AsNoTracking();
 
-    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges)
-        => trackChanges ? repositoryContext.Set<T>().Where(expression)
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges, params string[] includes)
+    {
+        var query = trackChanges ? repositoryContext.Set<T>().Where(expression)
             : repositoryContext.Set<T>().Where(expression).AsNoTracking();
+        if (includes.Length > 0)
+        {
+            var includesString = string.Join(".", includes);
+            query = query.Include(includesString);
+        }
+
+        return query;
+    }
 
     public void Create(T entity)
         => repositoryContext.Set<T>().Add(entity);
