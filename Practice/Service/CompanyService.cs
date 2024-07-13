@@ -18,6 +18,23 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         return mapper.Map<IEnumerable<CompanyDto>>(companies);
     }
 
+    public async Task<IEnumerable<CompanyDto>> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+    {
+        if (ids is null)
+        {
+            throw new ParameterBadRequestException(nameof(ids), "Paramter is null.");
+        }
+
+        var companyEntities = await _companyRepository.GetCompaniesByIds(ids, trackChanges).ConfigureAwait(false);
+
+        if (ids.Count() != companyEntities.Count())
+        {
+            throw new BadRequestException($"Expected {ids.Count()} companies but received {companyEntities.Count()} companies.");
+        }
+
+        return mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
+    }
+
     public async Task<CompanyDto> GetCompanyById(Guid companyId, bool trackChanges)
     {
         var company = await _companyRepository.GetCompanyById(companyId, trackChanges);
@@ -32,5 +49,18 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         await repository.Save().ConfigureAwait(false);
 
         return mapper.Map<CompanyDto>(company);
+    }
+
+    public async Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDTO> companies)
+    {
+        var companyEntities = mapper.Map<IEnumerable<Company>>(companies);
+        foreach (var company in companyEntities)
+        {
+            _companyRepository.CreateCompany(company);
+        }
+
+        await repository.Save().ConfigureAwait(false);
+
+        return mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
     }
 }
