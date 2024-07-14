@@ -9,4 +9,6 @@ public interface IEmployeeService
     Task<EmployeeDto> GetEmployee(Guid companyId, Guid employeeId, bool trackChanges);
 
     Task<EmployeeDto> CreateEmployee(Guid companyId, CreateEmployeeDto employeeDto,  bool trackChanges);
+
+    Task DeleteEmployee(Guid companyId, Guid employeeId, bool trackChanges);
 }

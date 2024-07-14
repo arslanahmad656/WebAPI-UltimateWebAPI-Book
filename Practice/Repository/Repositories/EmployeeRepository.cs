@@ -16,4 +16,6 @@ public class EmployeeRepository(RepositoryContext repositoryContext) : Repositor
         employee.CompanyId = companyId;
         Create(employee);
     }
+
+    public void DeleteEmployee(Employee employee) => Delete(employee);
 }

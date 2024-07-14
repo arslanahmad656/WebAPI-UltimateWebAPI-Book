@@ -57,4 +57,11 @@ public class CompaniesController(IServiceManager service)
 
         return CreatedAtRoute(GetCompaniesByIds, new { ids = string.Join(",", createdCompanies.Select(c => c.Id)) }, createdCompanies);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCompany(Guid id)
+    {
+        await service.CompanyService.DeleteCompany(id, true).ConfigureAwait(false);
+        return NoContent();
+    }
 }

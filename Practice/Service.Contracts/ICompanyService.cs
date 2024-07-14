@@ -13,4 +13,5 @@ public interface ICompanyService
     Task<CompanyDto> CreateCompany(CreateCompanyDTO companyDto);
 
     Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDTO> companies);
+    Task DeleteCompany(Guid id, bool trackChanges);
 }

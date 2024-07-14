@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.Data;
 
 namespace Service;
 
@@ -62,5 +63,12 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         await repository.Save().ConfigureAwait(false);
 
         return mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
+    }
+
+    public async Task DeleteCompany(Guid id, bool trackChanges)
+    {
+        var company = await _companyRepository.GetCompanyById(id, trackChanges).ConfigureAwait(false) ?? throw new CompanyNotFoundException(id);
+        _companyRepository.DeleteCompany(company);
+        await repository.Save().ConfigureAwait(false);
     }
 }

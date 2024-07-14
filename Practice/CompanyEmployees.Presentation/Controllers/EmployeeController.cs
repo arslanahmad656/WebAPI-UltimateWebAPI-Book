@@ -36,4 +36,12 @@ public class EmployeeController (IServiceManager service)
 
         return CreatedAtRoute(GetEmployeeById, new {companyId, employeeId = employee.Id}, employee);
     }
+
+    [HttpDelete("{employeeId:guid}")]
+    public async Task<IActionResult> DeleteEmployee(Guid companyId, Guid employeeId)
+    {
+        await service.EmployeeService.DeleteEmployee(companyId, employeeId, true);
+
+        return NoContent();
+    }
 }
