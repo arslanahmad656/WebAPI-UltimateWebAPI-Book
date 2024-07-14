@@ -16,6 +16,10 @@ public class RepositoryContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new CompanyConfiguration());
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
+        modelBuilder.Entity<Company>()
+            .Navigation(c => c.Employees)
+            .AutoInclude();
     }
 
     public DbSet<Company> Companies { get; set; }
