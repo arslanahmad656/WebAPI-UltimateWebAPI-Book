@@ -37,6 +37,19 @@ public class EmployeeController (IServiceManager service)
         return CreatedAtRoute(GetEmployeeById, new {companyId, employeeId = employee.Id}, employee);
     }
 
+    [HttpPut("{employeeId:guid}")]
+    public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid employeeId, [FromBody] UpdateEmployeeDto employeeDto)
+    {
+        if (employeeDto is null)
+        {
+            return BadRequest($"{nameof(employeeDto)} is required.");
+        }
+
+        await service.EmployeeService.UpdateEmployee(companyId, employeeId, employeeDto, true).ConfigureAwait(false);
+
+        return NoContent();
+    }
+
     [HttpDelete("{employeeId:guid}")]
     public async Task<IActionResult> DeleteEmployee(Guid companyId, Guid employeeId)
     {

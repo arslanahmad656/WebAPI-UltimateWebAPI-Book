@@ -10,8 +10,11 @@ public interface ICompanyService
 
     Task<CompanyDto> GetCompanyById(Guid companyId, bool trackChanges);
 
-    Task<CompanyDto> CreateCompany(CreateCompanyDTO companyDto);
+    Task<CompanyDto> CreateCompany(CreateCompanyDto companyDto);
 
-    Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDTO> companies);
+    Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDto> companies);
+
+    Task UpdateCompany(Guid companyId, UpdateCompanyDto company, bool trackChanges);
+
     Task DeleteCompany(Guid id, bool trackChanges);
 }

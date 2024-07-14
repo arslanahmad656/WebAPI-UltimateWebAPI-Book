@@ -42,7 +42,7 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         return company is null ? throw new CompanyNotFoundException(companyId) : mapper.Map<CompanyDto>(company);
     }
 
-    public async Task<CompanyDto> CreateCompany(CreateCompanyDTO companyDto)
+    public async Task<CompanyDto> CreateCompany(CreateCompanyDto companyDto)
     {
         var company = mapper.Map<Company>(companyDto);
         _companyRepository.CreateCompany(company);
@@ -52,7 +52,7 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         return mapper.Map<CompanyDto>(company);
     }
 
-    public async Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDTO> companies)
+    public async Task<IEnumerable<CompanyDto>> CreateCompanies(IEnumerable<CreateCompanyDto> companies)
     {
         var companyEntities = mapper.Map<IEnumerable<Company>>(companies);
         foreach (var company in companyEntities)
@@ -63,6 +63,15 @@ internal sealed class CompanyService(IRepositoryManager repository, ILoggerManag
         await repository.Save().ConfigureAwait(false);
 
         return mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
+    }
+
+    public async Task UpdateCompany(Guid companyId, UpdateCompanyDto companyDto, bool trackChanges)
+    {
+        var company = await _companyRepository.GetCompanyById(companyId, trackChanges).ConfigureAwait(false) ?? throw new CompanyNotFoundException(companyId);
+
+        mapper.Map(companyDto, company);
+        
+        await repository.Save().ConfigureAwait(false);
     }
 
     public async Task DeleteCompany(Guid id, bool trackChanges)

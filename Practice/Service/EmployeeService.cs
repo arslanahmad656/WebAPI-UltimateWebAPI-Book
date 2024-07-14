@@ -42,6 +42,16 @@ internal sealed class EmployeeService(IRepositoryManager repository, ILoggerMana
         return mapper.Map<EmployeeDto>(employee);
     }
 
+    public async Task UpdateEmployee(Guid companyId, Guid employeeId, UpdateEmployeeDto employeeDto, bool trackChanges)
+    {
+        _ = await _companyRepository.GetCompanyById(companyId, trackChanges).ConfigureAwait(false) ?? throw new CompanyNotFoundException(companyId);
+
+        var employee = await _employeeRepository.GetEmployee(companyId, employeeId, trackChanges).ConfigureAwait(false) ?? throw new EmployeeNotFoundException(employeeId);
+
+        mapper.Map(employeeDto, employee);
+        await repository.Save().ConfigureAwait(false);
+    }
+
     public async Task DeleteEmployee(Guid companyId, Guid employeeId, bool trackChanges)
     {
         _ = await _companyRepository.GetCompanyById(companyId, false).ConfigureAwait(false) ?? throw new CompanyNotFoundException(companyId);

@@ -33,7 +33,7 @@ public class CompaniesController(IServiceManager service)
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDTO company)
+    public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDto company)
     {
         if (company is null)
         {
@@ -46,7 +46,7 @@ public class CompaniesController(IServiceManager service)
     }
 
     [HttpPost("collection")]
-    public async Task<IActionResult> CreateCompanies([FromBody] IEnumerable<CreateCompanyDTO> companies)
+    public async Task<IActionResult> CreateCompanies([FromBody] IEnumerable<CreateCompanyDto> companies)
     {
         if (companies is null)
         {
@@ -56,6 +56,19 @@ public class CompaniesController(IServiceManager service)
         var createdCompanies = await service.CompanyService.CreateCompanies(companies).ConfigureAwait(false);
 
         return CreatedAtRoute(GetCompaniesByIds, new { ids = string.Join(",", createdCompanies.Select(c => c.Id)) }, createdCompanies);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] UpdateCompanyDto company)
+    {
+        if (company is null)
+        {
+            return BadRequest("Companies is null.");
+        }
+
+        await service.CompanyService.UpdateCompany(id, company, true).ConfigureAwait(false);
+
+        return NoContent();
     }
 
     [HttpDelete("{id:guid}")]

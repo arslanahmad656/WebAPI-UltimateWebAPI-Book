@@ -9,7 +9,7 @@ public class EmployeeRepository(RepositoryContext repositoryContext) : Repositor
         => await FindByCondition(e => e.CompanyId == companyId, trackChanges).ToListAsync().ConfigureAwait(false);
 
     public async Task<Employee?> GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
-        => await FindByCondition(e => e.CompanyId == companyId && e.Id == employeeId, false).SingleOrDefaultAsync().ConfigureAwait(false);
+        => await FindByCondition(e => e.CompanyId == companyId && e.Id == employeeId, trackChanges).SingleOrDefaultAsync().ConfigureAwait(false);
 
     public void CreateEmployee(Guid companyId, Employee employee)
     {

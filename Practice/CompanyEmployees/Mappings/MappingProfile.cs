@@ -13,8 +13,12 @@ public class MappingProfile : Profile
 
         CreateMap<Employee, EmployeeDto>();
 
-        CreateMap<CreateCompanyDTO, Company>();
+        CreateMap<CreateCompanyDto, Company>();
 
         CreateMap<CreateEmployeeDto, Employee>();
+
+        CreateMap<UpdateEmployeeDto, Employee>();
+
+        CreateMap<UpdateCompanyDto, Company>();
     }
 }
